@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ASCII Table Reference</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #333;
+            color: white;
+        }
+        #searchBox {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>ASCII Table Reference</h1>
+<input type="text" id="searchBox" placeholder="Search for ASCII character, code, or description…">
+
+<table id="asciiTable">
+    <thead>
+        <tr>
+            <th>Decimal</th>
+            <th>Hex</th>
+            <th>Char</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script>
+const asciiList = [
+    {d:0,h:"00",c:"NUL",desc:"Null"},
+    {d:1,h:"01",c:"SOH",desc:"Start of Heading"},
+    {d:2,h:"02",c:"STX",desc:"Start of Text"},
+    {d:3,h:"03",c:"ETX",desc:"End of Text"},
+    {d:4,h:"04",c:"EOT",desc:"End of Transmission"},
+    {d:5,h:"05",c:"ENQ",desc:"Enquiry"},
+    {d:6,h:"06",c:"ACK",desc:"Acknowledge"},
+    {d:7,h:"07",c:"BEL",desc:"Bell"},
+    {d:8,h:"08",c:"BS",desc:"Backspace"},
+    {d:9,h:"09",c:"TAB",desc:"Horizontal Tab"},
+    {d:10,h:"0A",c:"LF",desc:"Line Feed"},
+    {d:11,h:"0B",c:"VT",desc:"Vertical Tab"},
+    {d:12,h:"0C",c:"FF",desc:"Form Feed"},
+    {d:13,h:"0D",c:"CR",desc:"Carriage Return"},
+    {d:14,h:"0E",c:"SO",desc:"Shift Out"},
+    {d:15,h:"0F",c:"SI",desc:"Shift In"},
+];
+
+// Add ASCII printable range 32–126
+for (let i = 16; i <= 126; i++) {
+    asciiList.push({
+        d: i,
+        h: i.toString(16).padStart(2, "0").toUpperCase(),
+        c: String.fromCharCode(i),
+        desc: "Printable character"
+    });
+}
+
+const tbody = document.querySelector("#asciiTable tbody");
+
+asciiList.forEach(a => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${a.d}</td><td>${a.h}</td><td>${a.c}</td><td>${a.desc}</td>`;
+    tbody.appendChild(tr);
+});
+
+// Search filter
+document.getElementById("searchBox").addEventListener("keyup", function () {
+    const filter = this.value.toLowerCase();
+    const rows = tbody.getElementsByTagName("tr");
+
+    for (let row of rows) {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+    }
+});
+</script>
+
+</body>
+</html>
